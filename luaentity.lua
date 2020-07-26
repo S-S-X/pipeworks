@@ -36,7 +36,7 @@ local function read_entities()
 		y=math.min(30927,y)
 		z=math.min(30927,z)
 
-		entity.start_pos.x = x                 
+		entity.start_pos.x = x
 		entity.start_pos.y = y
 		entity.start_pos.z = z
 
@@ -211,7 +211,7 @@ local entitydef_default = {
 		end
 	end,
 	get_velocity = function(self)
-		return vector.new(self._velocity)	
+		return vector.new(self._velocity)
 	end,
 	set_velocity = function(self, velocity)
 		self._velocity = vector.new(velocity)
@@ -289,7 +289,7 @@ function luaentity.add_entity(pos, name)
 		_acceleration = {x = 0, y = 0, z = 0},
 		_attached_entities = {},
 	}
-	
+
 	local prototype = luaentity.registered_entities[name]
 	setmetatable(entity, prototype) -- Default to prototype for other methods
 	luaentity.entities[index] = entity
@@ -359,7 +359,9 @@ local move_entities_globalstep_part2 = function(dtime)
 				end
 			end
 		else
-			entity:_add_loaded()
+			if entity._add_loaded then
+				entity:_add_loaded()
+			end
 			if entity.on_step then
 				entity:on_step(dtime)
 			end
